@@ -27,11 +27,6 @@ dist-ssr
 # Ignore environment files
 .env
 
-# Ignore database files
-db/
-drizzle.config.ts
-drizzle/
-
 # Ignore node_modules directory
 node_modules/
 
@@ -40,11 +35,6 @@ package-lock.json# .gitignore
 
 # Ignore environment files
 .env
-
-# Ignore database files
-db/
-drizzle.config.ts
-drizzle/
 
 # Ignore node_modules directory
 node_modules/
