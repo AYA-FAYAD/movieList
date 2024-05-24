@@ -1,0 +1,15 @@
+# .gitignore
+
+# Ignore environment files
+.env
+
+# Ignore database files
+db/
+drizzle.config.ts
+drizzle/
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore package-lock files
+package-lock.json
