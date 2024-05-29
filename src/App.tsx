@@ -1,15 +1,11 @@
-// import { trpc } from "./client";
-import MoveieSearch from "./components/movieSearch";
+// import React, { useState } from "react";
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-function App() {
-  // console.log(data);
-  // async function main() {
-  //   const result = await trpc.users.get.query({ userId: "2134" });
-  //   console.log(result);
-  // }
-  // main();
+import SayHi from "./sayhhi";
+// import MoveieSearch from "./components/movieSearch";
 
-  return <MoveieSearch />;
+export function App() {
+  return <SayHi />;
 }
 
 export default App;

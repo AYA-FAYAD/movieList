@@ -1,4 +1,5 @@
-import MoveieSearch from "../components/movieSearch";
+import App from "../App";
+// import MoveieSearch from "../components/movieSearch";
 export function HomePage() {
-  return <MoveieSearch />;
+  return <App />;
 }

@@ -7,6 +7,8 @@ import { createContext } from "./context";
 const app = express();
 app.use(cors());
 
+export type AppRouter = typeof appRouter;
+
 app.use(
   "/trpc",
   createExpressMiddleware({
@@ -19,5 +21,3 @@ app.get("/", (req, res) => {
   return res.json("Hi!!!");
 });
 app.listen(3000);
-
-export type AppRouter = typeof appRouter;

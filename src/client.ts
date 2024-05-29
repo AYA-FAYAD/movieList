@@ -1,13 +1,24 @@
-import { createTRPCClient, httpBatchLink } from "@trpc/client";
-import { AppRouter } from "../backend/api";
+import { createTRPCReact } from "@trpc/react-query";
+// import { httpBatchLink } from "@trpc/client";
+import type { AppRouter } from "../backend/index";
 
-export const trpc = createTRPCClient<AppRouter>({
-  links: [
-    httpBatchLink({
-      url: "http://localhost:3000/trpc",
-    }),
-  ],
-});
+export const trpc = createTRPCReact<AppRouter>();
+
+// export const trpcClient = trpc.createClient({
+//   links: [
+//     httpBatchLink({
+//       url: "http://localhost:3000/trpc",
+//     }),
+//   ],
+// });
+
+// export const trpc = createTRPCClient<AppRouter>({
+//   links: [
+//     httpBatchLink({
+//       url: "http://localhost:3000/trpc",
+//     }),
+//   ],
+// });
 // async function main() {
 //   const result = await clinet.sayHi.query();
 //   console.log(result);

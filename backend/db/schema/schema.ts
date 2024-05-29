@@ -16,14 +16,26 @@ export const movies = sqliteTable("movies", {
   title: text("title"), //add map to check for unique
   year: text("year"),
   posterUrl: text("poster"),
+});
+
+export const userMovies = sqliteTable("user_movise", {
   userId: int("user_id")
     .notNull()
     .references(() => users.id),
+  movieId: int("movie_id")
+    .notNull()
+    .references(() => movies.id),
 });
 
-export const movieRelation = relations(movies, ({ one }) => ({
-  user: one(users, {
-    fields: [movies.userId],
-    references: [users.id],
-  }),
+export const userRelations = relations(users, ({ many }) => ({
+  movies: many(userMovies),
+}));
+
+export const movieRelations = relations(movies, ({ many }) => ({
+  users: many(userMovies),
+}));
+
+export const userMoviesRelations = relations(userMovies, ({ one }) => ({
+  user: one(users, { fields: [userMovies.userId], references: [users.id] }),
+  movie: one(movies, { fields: [userMovies.movieId], references: [movies.id] }),
 }));
