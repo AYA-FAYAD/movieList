@@ -2,12 +2,18 @@ import React from "react";
 import { trpc } from "./client";
 
 const SayHi = () => {
-  const { data, isLoading, error } = trpc.useQuery(["sayHi"]);
+  const addUser = async () => {
+    const adduser = await trpc.createUser.mutate({
+      input: {
+        userName: "aya",
+        password: "aya133",
+      },
+    });
+    console.log(adduser);
+    return adduser;
+  };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  return <div>Data: {data}</div>;
+  return <div>user add</div>;
 };
 
 export default SayHi;

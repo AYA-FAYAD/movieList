@@ -1,21 +1,33 @@
-import { t } from "../trpc";
+import { users } from "../db/schema/schema";
+import { db } from "../db/db";
 import { z } from "zod";
 
-const userProcedure = t.procedure.input(z.object({ userId: z.string() }));
+import { router, publicProcedure } from "../trpc";
 
-export const userRouter = t.router({
-  get: userProcedure.query(({ input }) => {
-    return { id: input.userId };
+const getUserSchema = z.object({
+  id: z.number().int(),
+});
+
+export const userRouter = router({
+  getUser: publicProcedure.input(getUserSchema).query(async () => {
+    return await db.select().from(users);
   }),
-  update: userProcedure
-    .input(z.object({ name: z.string() }))
-    .output(z.object({ name: z.string(), id: z.string() }))
-    .mutation((req) => {
-      // console.log(req.ctx.isAdmin);
+  createUser: publicProcedure
+    .input(
+      z.object({
+        userName: z.string(),
+        password: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const newUser = await db
+        .insert(users)
+        .values({
+          userName: input.userName,
+          password: input.password,
+        })
+        .execute();
 
-      console.log(
-        `Update user ${req.input.userId} to have the name ${req.input.name}`
-      );
-      return { id: req.input.userId, name: req.input.name };
+      return newUser;
     }),
 });

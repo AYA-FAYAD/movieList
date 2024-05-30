@@ -1,23 +1,30 @@
 import express from "express";
 import cors from "cors";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { appRouter } from "./routers";
+import { userRouter } from "./routers/users";
 import { createContext } from "./context";
 
 const app = express();
 app.use(cors());
 
-export type AppRouter = typeof appRouter;
+export type AppRouter = typeof userRouter;
 
 app.use(
   "/trpc",
   createExpressMiddleware({
-    router: appRouter,
+    router: userRouter,
     createContext,
   })
 );
+console.log(userRouter);
 
 app.get("/", (req, res) => {
-  return res.json("Hi!!!");
+  return res.send("Hi!!!");
 });
-app.listen(3000);
+
+app.get("/createuser", (req, res) => {
+  return res.send({ data: { username: "fofo", password: "123123" } });
+});
+app.listen(3000, () => {
+  console.log("open on port 3000");
+});
