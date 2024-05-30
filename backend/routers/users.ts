@@ -1,16 +1,17 @@
-import { users } from "../db/schema/schema";
-import { db } from "../db/db";
 import { z } from "zod";
-
 import { router, publicProcedure } from "../trpc";
 
-const getUserSchema = z.object({
-  id: z.number().int(),
-});
+import { users } from "../db/schema/schema";
+import { db } from "../db/db";
+
+// const getUserSchema = z.object({
+//   id: z.number().int(),
+// });
 
 export const userRouter = router({
-  getUser: publicProcedure.input(getUserSchema).query(async () => {
-    return await db.select().from(users);
+  getUser: publicProcedure.query(async () => {
+    const allUsers = await db.select().from(users).execute();
+    return allUsers;
   }),
   createUser: publicProcedure
     .input(
@@ -26,6 +27,7 @@ export const userRouter = router({
           userName: input.userName,
           password: input.password,
         })
+
         .execute();
 
       return newUser;

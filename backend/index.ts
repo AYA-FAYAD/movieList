@@ -8,7 +8,6 @@ const app = express();
 app.use(cors());
 
 export type AppRouter = typeof userRouter;
-
 app.use(
   "/trpc",
   createExpressMiddleware({
@@ -16,14 +15,16 @@ app.use(
     createContext,
   })
 );
-console.log(userRouter);
+// console.log(userRouter);
 
 app.get("/", (req, res) => {
-  return res.send("Hi!!!");
+  return res.send("Hiff!!!");
 });
 
-app.get("/createuser", (req, res) => {
-  return res.send({ data: { username: "fofo", password: "123123" } });
+app.get("/trpc/createUser", (req, res) => {
+  console.log("heello");
+
+  return res.json({ data: { username: "fofo", password: "123123" } });
 });
 app.listen(3000, () => {
   console.log("open on port 3000");
