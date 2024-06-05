@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGetUserQuery } from "../stors";
 import { trpc } from "../client";
+import { SignIn } from "@clerk/clerk-react";
 function LogIn() {
   const [userName, setUserName] = useState("");
   const { data: users, error, isLoading, refetch } = trpc.getUser.useQuery();

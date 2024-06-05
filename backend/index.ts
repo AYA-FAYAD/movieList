@@ -1,9 +1,13 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { userRouter } from "./routers/users";
 import { createContext } from "./context";
 import { clerkMiddleware } from "./auth";
+import { ClerkExpressWithAuth } from "@clerk/clerk-sdk-node";
+
+const port = process.env.PORT || 3000;
 
 const app = express();
 app.use(cors());
@@ -29,6 +33,6 @@ app.get("/trpc/createUser", (req, res) => {
 
   return res.json({ data: { username: "fofo", password: "123123" } });
 });
-app.listen(3000, () => {
-  console.log("open on port 3000");
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
 });
