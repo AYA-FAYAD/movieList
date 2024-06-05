@@ -3,9 +3,12 @@ import cors from "cors";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { userRouter } from "./routers/users";
 import { createContext } from "./context";
+import { clerkMiddleware } from "./auth";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+app.use(clerkMiddleware);
 
 export type AppRouter = typeof userRouter;
 app.use(
@@ -18,7 +21,7 @@ app.use(
 // console.log(userRouter);
 
 app.get("/", (req, res) => {
-  return res.send("Hiff!!!");
+  return res.send("Hiffn!!!");
 });
 
 app.get("/trpc/createUser", (req, res) => {

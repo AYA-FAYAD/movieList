@@ -6,15 +6,4 @@ export const createContext = ({
   res,
 }: trpcExpress.CreateExpressContextOptions) => ({}); // no context
 
-// export type Context = inferAsyncReturnType<typeof createContext>;
-
-// import { CreateExpressContextOptions } from "@trpc/server/adapters/express";
-
-// export function createContext({ req, res }: CreateExpressContextOptions) {
-//   return {
-//     req,
-//     res,
-//     isAdmin: true,
-//   };
-// }
 export type Context = ReturnType<typeof createContext>;

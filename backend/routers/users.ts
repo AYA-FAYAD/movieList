@@ -3,6 +3,7 @@ import { router, publicProcedure } from "../trpc";
 
 import { users } from "../db/schema/schema";
 import { db } from "../db/db";
+import { eq } from "drizzle-orm";
 
 // const getUserSchema = z.object({
 //   id: z.number().int(),
@@ -13,6 +14,37 @@ export const userRouter = router({
     const allUsers = await db.select().from(users).execute();
     return allUsers;
   }),
+  getUserByname: publicProcedure
+    .input(
+      z.object({
+        userName: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      console.log("Received input:", input);
+      const user = await db
+        .select()
+        .from(users)
+        .where(eq(users.userName, input.userName))
+        .execute();
+      console.log("Query result:", user);
+      return user;
+    }),
+  getUserById: publicProcedure
+    .input(
+      z.object({
+        id: z.number().int(),
+      })
+    )
+    .query(async ({ input }) => {
+      console.log("Received input:", input);
+      const user = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, input.id))
+        .execute();
+      return user;
+    }),
   createUser: publicProcedure
     .input(
       z.object({
@@ -21,6 +53,7 @@ export const userRouter = router({
       })
     )
     .mutation(async ({ input }) => {
+      // console.log("Received input:", input);
       const newUser = await db
         .insert(users)
         .values({

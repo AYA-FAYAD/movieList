@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ClerkProvider } from "@clerk/clerk-react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { trpc } from "./client.ts";
@@ -13,6 +14,7 @@ import NotFoundPage from "./pages/notFoundPage.tsx";
 import MovieList from "./components/moviesList.tsx";
 import ShowMovie from "./components/showMovie.tsx";
 import SignUp from "./components/signUp.tsx";
+import LogIn from "./components/logIn.tsx";
 
 const trpcUrl = "http://localhost:3000/trpc";
 const queryClient = new QueryClient();
@@ -23,7 +25,7 @@ const trpcClient = trpc.createClient({
     }),
   ],
 });
-
+const PUBLISHABLE_KEY = process.env.VITE_CLERK_PUBLISHABLE_KEY;
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,16 +44,22 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignUp />,
   },
+  {
+    path: "/login",
+    element: <LogIn />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <RouterProvider router={router} />
-        </Provider>
-      </QueryClientProvider>
-    </trpc.Provider>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <RouterProvider router={router} />
+          </Provider>
+        </QueryClientProvider>
+      </trpc.Provider>
+    </ClerkProvider>
   </React.StrictMode>
 );
